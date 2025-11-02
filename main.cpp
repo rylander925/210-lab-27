@@ -11,11 +11,17 @@ IDE Used: Visual Studio Code
 using namespace std;
 
 void OutputVillager(pair<string, tuple<int,string,string>> villager);
+void OutputMenu();
+void SearchVillager();
 
 int main() {
     // declarations
     //{Name, (friendshipLevel, species, catchphrase)}
     map<string, tuple<int, string, string>> villagerData;
+    enum MENU_OPTION {INCREASE_FRIENDSHIP = 1, DECREASE_FRIENDSHIP = 2, SEARCH = 3, EXIT = 4};
+    const pair<int, int> MENU_RANGE = {1, 4};
+    int option;
+
 
     // insert elements into the map
     // note how the right-hand side of the assignment are the vector elements
@@ -29,15 +35,9 @@ int main() {
         OutputVillager(pair);
     }
 
-    // access the map using iterators
-    cout << "\nVillagers and their information (iterators):" << endl;
-    for (map<string, tuple<int, string, string>>::iterator it = villagerData.begin(); 
-                                               it != villagerData.end(); ++it) {
-        OutputVillager(*it);
-    }
-
-    // delete an element
-    villagerData.erase("Raymond");
+    do {
+        OutputMenu();
+    } while (option != EXIT);
 
     // search for an element using .find() to avoid errors
     string searchKey = "Audie";
@@ -69,4 +69,14 @@ void OutputVillager(pair<string, tuple<int,string,string>> villager) {
              << get<1>(villager.second) << ", "
              << get<2>(villager.second)
              << "]" << endl;
+}
+
+/**
+ * Outputs menu
+ */
+void OutputMenu() {
+    cout << "1. Increase Friendship" << endl;
+    cout << "2. Decrease Friendship" << endl;
+    cout << "3. Search for Villager" << endl;
+    cout << "4. Exit"                << endl;
 }
