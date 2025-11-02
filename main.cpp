@@ -10,6 +10,8 @@ IDE Used: Visual Studio Code
 #include <vector>
 using namespace std;
 
+void OutputVillager(pair<string, tuple<int,string,string>> villager);
+
 int main() {
     // declarations
     //{Name, (friendshipLevel, species, catchphrase)}
@@ -24,20 +26,14 @@ int main() {
     // access the map using a range-based for loop
     cout << "Villagers and their information:" << endl;
     for (auto pair : villagerData) {
-        cout << pair.first << ": "
-             << "[" << get<0>(pair.second)
-        cout << endl;
+        OutputVillager(pair);
     }
 
     // access the map using iterators
-    cout << "\nVillagers and their favorite colors (iterators):" << endl;
-    for (map<string, vector<string>>::iterator it = villagerData.begin(); 
+    cout << "\nVillagers and their information (iterators):" << endl;
+    for (map<string, tuple<int, string, string>>::iterator it = villagerData.begin(); 
                                                it != villagerData.end(); ++it) {
-        cout << it->first << ": ";
-        for (auto color : it->second) {
-            cout << color << " ";
-        }
-        cout << endl;
+        OutputVillager(*it);
     }
 
     // delete an element
@@ -48,10 +44,8 @@ int main() {
     auto it = villagerData.find(searchKey);
     if (it != villagerData.end()) {  // the iterator points to beyond the end of the map
                                        // if searchKey is not found
-        cout << "\nFound " << searchKey << "'s favorite colors: ";
-        for (auto color : it->second)  // range loop to traverse the value/vector
-            cout << color << " ";
-        cout << endl;
+        cout << "\nFound " << searchKey << "'s information: ";
+        OutputVillager(*it);
     } else
         cout << endl << searchKey << " not found." << endl;
 
@@ -61,4 +55,18 @@ int main() {
     cout << "Size after clear: " << villagerData.size() << endl;
 
     return 0;
+}
+
+/**
+ * Outputs a villager's information.
+ * @param villager Villager information, formatted as a pair containing the villager's name, and a typle containing friendship level, species, and catchphrase 
+ * 
+ */
+void OutputVillager(pair<string, tuple<int,string,string>> villager) {
+    cout << villager.first << ": "
+             << "[" 
+             << get<0>(villager.second) << ", "
+             << get<1>(villager.second) << ", "
+             << get<2>(villager.second)
+             << "]" << endl;
 }
