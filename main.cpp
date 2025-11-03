@@ -11,6 +11,7 @@ IDE Used: Visual Studio Code
 using namespace std;
 
 const int STREAM_IGNORE_CHARS = 100;
+const pair<int, int> FRIENDSHIP_RANGE = {1, 10};
 
 void OutputVillager(const pair<string, tuple<int,string,string>> villager);
 void OutputMenu();
@@ -40,6 +41,7 @@ int main() {
     }
 
     do {
+        cout << endl;
         OutputMenu();
         //Validate input
         do {
@@ -116,8 +118,8 @@ void OutputMenu() {
 void IncreaseFriendship(map<string, tuple<int, string, string>>& villagers) {
     cout << "Increased friendship of all villagers" << endl;
     //iterate through pairs and increment friendship
-    for (auto pair : villagers) {
-        ++get<0>(pair.second);
+    for (auto& pair : villagers) {
+        if (get<0>(pair.second) < FRIENDSHIP_RANGE.second) get<0>(pair.second)++;
     }
 }
 
@@ -128,8 +130,8 @@ void IncreaseFriendship(map<string, tuple<int, string, string>>& villagers) {
 void DecreaseFriendship(map<string, tuple<int, string, string>>& villagers) {
     cout << "Decreased friendship of all villagers" << endl;
     //iterate through pairs and decrement friendship
-    for (auto pair : villagers) {
-        --get<0>(pair.second);
+    for (auto& pair : villagers) {
+        if (get<0>(pair.second) > FRIENDSHIP_RANGE.first) get<0>(pair.second)--;
     }
 }
 
@@ -140,8 +142,7 @@ void DecreaseFriendship(map<string, tuple<int, string, string>>& villagers) {
 void SearchVillager(const map<string, tuple<int, string, string>>& villagers) {
     //Retrieve villager name from input
     string searchKey;
-    cout << "Enter the name of the villager to search for:" << endl;
-    cin.ignore(STREAM_IGNORE_CHARS, '\n');
+    cout << "Enter the name of the villager to search for: ";
     getline(cin, searchKey);
 
     // search for an element using .find() to avoid errors
@@ -151,5 +152,5 @@ void SearchVillager(const map<string, tuple<int, string, string>>& villagers) {
         cout << "\nFound " << searchKey << "'s information: ";
         OutputVillager(*it);
     } else
-        cout << endl << searchKey << " not found." << endl;
+        cout << searchKey << " was not found." << endl;
 }
