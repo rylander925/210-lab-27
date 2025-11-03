@@ -36,16 +36,16 @@ int main() {
     villagerData["Raymond"] = {7, "Siamese Cat", "Meowzers"};
     villagerData.insert({"Marshal", {10, "Bee", "Ya like jazz?"}});
 
-    // access the map using a range-based for loop
-    cout << "Villagers and their information:" << endl;
-    for (auto pair : villagerData) {
-        OutputVillager(pair);
-    }
-
     do {
+        //Output villager info
+        cout << "Villager details: " << endl;
+        for (auto villager : villagerData) OutputVillager(villager);
         cout << endl;
+
+        //Output menu and query an option
         OutputMenu();
-        //Validate input
+
+        //Validate input for options
         do {
             cout << " > ";
             cin >> option;
@@ -78,9 +78,7 @@ int main() {
                 SearchVillager(villagerData);
                 break;
         }
-
-        cout << endl << "Villager details: " << endl;
-        for (auto villager : villagerData) OutputVillager(villager);
+        cout << endl;
     } while (option != EXIT);
 
     return 0;
@@ -101,7 +99,7 @@ void OutputVillager(const pair<string, tuple<int,string,string>> villager) {
 }
 
 /**
- * Outputs menu
+ * Outputs menu options
  */
 void OutputMenu() {
     cout << "1. Add Villager"        << endl;
@@ -156,7 +154,22 @@ void AddVillager(map<string, tuple<int, string, string>>& villagers) {
  * @param villagers Villager data stored as a map formatted {string name, tuple(int friendship, string species, string catchphrase)}
  */
 void DeleteVillager(map<string, tuple<int, string, string>>& villagers) {
-    cout << "Removed villager" << endl;
+    //Exit if map is empty
+    if (villagers.empty()) {
+        cout << "No villagers to delete" << endl;
+        return;
+    }
+
+    //Retrieve villager name from input
+    string searchKey;
+    cout << "Enter the name of the villager to delete (case sensitive): ";
+    getline(cin, searchKey);
+
+    //Attempt to delete villager, returning an error message if not found
+    if (villagers.erase(searchKey)) {
+        cout << "Deleted " << searchKey << endl;
+    } else
+        cout << searchKey << " was not found" << endl;
 }
 
 /**
