@@ -10,9 +10,13 @@ IDE Used: Visual Studio Code
 #include <vector>
 using namespace std;
 
+const int STREAM_IGNORE_CHARS = 100;
+
 void OutputVillager(pair<string, tuple<int,string,string>> villager);
 void OutputMenu();
-void SearchVillager();
+void IncreaseFriendship(map<string, tuple<int, string, string>> villagers);
+void DecreaseFriendship(map<string, tuple<int, string, string>> villagers);
+void SearchVillager(map<string, tuple<int, string, string>> villagers);
 
 int main() {
     // declarations
@@ -37,6 +41,32 @@ int main() {
 
     do {
         OutputMenu();
+        //Validate input
+        do {
+            if (cin.fail()) {
+                cout << "Menu option must be an integer" << endl;
+            } else if (option < MENU_RANGE.first || option > MENU_RANGE.second) {
+                cout << "Menu option must be between " << MENU_RANGE.first << " and " << MENU_RANGE.second << endl;
+            }
+            option = -1;
+            cin.clear();
+            cin.ignore(STREAM_IGNORE_CHARS, '\n');
+            
+            cout << " > ";
+            cin >> option;
+        } while (option < MENU_RANGE.first || option > MENU_RANGE.second);
+
+        switch(option) {
+            case INCREASE_FRIENDSHIP:
+                IncreaseFriendship();
+                break;
+            case DECREASE_FRIENDSHIP:
+                DecreaseFriendship();
+                break;
+            case SEARCH:
+                SearchVillager();
+                break;
+        }
     } while (option != EXIT);
 
     // search for an element using .find() to avoid errors
@@ -80,3 +110,9 @@ void OutputMenu() {
     cout << "3. Search for Villager" << endl;
     cout << "4. Exit"                << endl;
 }
+
+void IncreaseFriendship(map<string, tuple<int, string, string>> villagers);
+
+void DecreaseFriendship(map<string, tuple<int, string, string>> villagers);
+
+void SearchVillager(map<string, tuple<int, string, string>> villagers);
