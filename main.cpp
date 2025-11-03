@@ -117,7 +117,38 @@ void OutputMenu() {
  * @param villagers Villager data stored as a map formatted {string name, tuple(int friendship, string species, string catchphrase)}
  */
 void AddVillager(map<string, tuple<int, string, string>>& villagers) {
-    cout << "Added villager" << endl;
+    string name, species, catchphrase;
+    int friendship;
+
+    //Retrieve data from input
+    cout << "Enter new villager name: ";
+    getline(cin, name);
+
+    //Validate input when retrieving friendship level
+    do {
+            cout << "Enter friendship level (1-10): ";
+            cin >> friendship;
+
+            if (cin.fail()) {
+                cout << "Friendship must be an integer" << endl;
+                friendship = -1;
+            } else if (friendship < FRIENDSHIP_RANGE.first || friendship > FRIENDSHIP_RANGE.second) {
+                cout << "Friendship must be a number between " << FRIENDSHIP_RANGE.first << " and " << FRIENDSHIP_RANGE.second << endl;
+            }
+            cin.clear();
+            cin.ignore(STREAM_IGNORE_CHARS, '\n');
+    } while (friendship < FRIENDSHIP_RANGE.first || friendship > FRIENDSHIP_RANGE.second);
+
+    cout << "Species: ";
+    getline(cin, species);
+
+    cout << "Catchphrase: ";
+    getline(cin, catchphrase);
+
+    //Insert a new map entry based off data
+    villagers.insert(make_pair(name, make_tuple(friendship, species, catchphrase)));
+
+    cout << "Added " << name << endl;
 }
 
 /**
@@ -159,7 +190,7 @@ void DecreaseFriendship(map<string, tuple<int, string, string>>& villagers) {
 void SearchVillager(const map<string, tuple<int, string, string>>& villagers) {
     //Retrieve villager name from input
     string searchKey;
-    cout << "Enter the name of the villager to search for: ";
+    cout << "Enter the name of the villager to search for (case sensitive): ";
     getline(cin, searchKey);
 
     // search for an element using .find() to avoid errors
