@@ -15,6 +15,8 @@ const pair<int, int> FRIENDSHIP_RANGE = {1, 10};
 
 void OutputVillager(const pair<string, tuple<int,string,string>> villager);
 void OutputMenu();
+void AddVillager(map<string, tuple<int, string, string>>& villagers);
+void DeleteVillager(map<string, tuple<int, string, string>>& villagers);
 void IncreaseFriendship(map<string, tuple<int, string, string>>& villagers);
 void DecreaseFriendship(map<string, tuple<int, string, string>>& villagers);
 void SearchVillager(const map<string, tuple<int, string, string>>& villagers);
@@ -23,8 +25,8 @@ int main() {
     // declarations
     //{Name, (friendshipLevel, species, catchphrase)}
     map<string, tuple<int, string, string>> villagerData;
-    enum MENU_OPTION {INCREASE_FRIENDSHIP = 1, DECREASE_FRIENDSHIP = 2, SEARCH = 3, EXIT = 4};
-    const pair<int, int> MENU_RANGE = {1, 4};
+    enum MENU_OPTION {ADD = 1, DELETE = 2, INCREASE_FRIENDSHIP = 3, DECREASE_FRIENDSHIP = 4, SEARCH = 5, EXIT = 6};
+    const pair<int, int> MENU_RANGE = {1, 6};
     int option;
 
 
@@ -60,6 +62,12 @@ int main() {
         } while (option < MENU_RANGE.first || option > MENU_RANGE.second);
 
         switch(option) {
+            case ADD:
+                AddVillager(villagerData);
+                break;
+            case DELETE:
+                DeleteVillager(villagerData);
+                break;
             case INCREASE_FRIENDSHIP:
                 IncreaseFriendship(villagerData);
                 break;
@@ -71,18 +79,9 @@ int main() {
                 break;
         }
 
-        cout << "Villager details: " << endl;
+        cout << endl << "Villager details: " << endl;
         for (auto villager : villagerData) OutputVillager(villager);
-        cout << endl;
-
     } while (option != EXIT);
-
-
-
-    // report size, clear, report size again to confirm map operations
-    cout << "\nSize before clear: " << villagerData.size() << endl;
-    villagerData.clear();
-    cout << "Size after clear: " << villagerData.size() << endl;
 
     return 0;
 }
@@ -105,10 +104,28 @@ void OutputVillager(const pair<string, tuple<int,string,string>> villager) {
  * Outputs menu
  */
 void OutputMenu() {
-    cout << "1. Increase Friendship" << endl;
-    cout << "2. Decrease Friendship" << endl;
-    cout << "3. Search for Villager" << endl;
-    cout << "4. Exit"                << endl;
+    cout << "1. Add Villager"        << endl;
+    cout << "2. Delete Villager"     << endl;
+    cout << "3. Increase Friendship" << endl;
+    cout << "4. Decrease Friendship" << endl;
+    cout << "5. Search for Villager" << endl;
+    cout << "6. Exit"                << endl;
+}
+
+/**
+ * Adds a villager (from input) to the provided map.
+ * @param villagers Villager data stored as a map formatted {string name, tuple(int friendship, string species, string catchphrase)}
+ */
+void AddVillager(map<string, tuple<int, string, string>>& villagers) {
+    cout << "Added villager" << endl;
+}
+
+/**
+ * Deletes a villager from the provided map (name received from input) if found.
+ * @param villagers Villager data stored as a map formatted {string name, tuple(int friendship, string species, string catchphrase)}
+ */
+void DeleteVillager(map<string, tuple<int, string, string>>& villagers) {
+    cout << "Removed villager" << endl;
 }
 
 /**
