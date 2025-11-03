@@ -8,6 +8,7 @@ IDE Used: Visual Studio Code
 #include <tuple>
 #include <string>
 #include <vector>
+#include <iomanip>
 using namespace std;
 
 const int STREAM_IGNORE_CHARS = 100;
@@ -27,6 +28,8 @@ int main() {
     map<string, tuple<int, string, string>> villagerData;
     enum MENU_OPTION {ADD = 1, DELETE = 2, INCREASE_FRIENDSHIP = 3, DECREASE_FRIENDSHIP = 4, SEARCH = 5, EXIT = 6};
     const pair<int, int> MENU_RANGE = {1, 6};
+    const char FILL_CHAR = '=';
+    const int LINE_WIDTH = 50;
     int option;
 
 
@@ -45,7 +48,7 @@ int main() {
         //Output menu and query an option
         OutputMenu();
 
-        //Validate input for options
+        //Validate input for menu options
         do {
             cout << " > ";
             cin >> option;
@@ -61,6 +64,7 @@ int main() {
             
         } while (option < MENU_RANGE.first || option > MENU_RANGE.second);
 
+        //Execute a function (or exit) based off queried option
         switch(option) {
             case ADD:
                 AddVillager(villagerData);
@@ -77,8 +81,11 @@ int main() {
             case SEARCH:
                 SearchVillager(villagerData);
                 break;
+            case EXIT:
+                cout << "Exiting program" << endl;
+                break;
         }
-        cout << endl;
+        cout << setfill(FILL_CHAR) << setw(LINE_WIDTH) << "" << setfill(' ') << endl;
     } while (option != EXIT);
 
     return 0;
@@ -173,7 +180,7 @@ void DeleteVillager(map<string, tuple<int, string, string>>& villagers) {
 }
 
 /**
- * Increases friendship level of all villagers by 1
+ * Increases friendship level of all villagers by 1 up to the maximum of 10
  * @param villagers Villager data stored as a map formatted {string name, tuple(int friendship, string species, string catchphrase)}
  */
 void IncreaseFriendship(map<string, tuple<int, string, string>>& villagers) {
@@ -185,7 +192,7 @@ void IncreaseFriendship(map<string, tuple<int, string, string>>& villagers) {
 }
 
 /**
- * Decreases friendship level of all villagers by 1
+ * Decreases friendship level of all villagers by 1 up to the minimum of 1
  * @param villagers Villager data stored as a map formatted {string name, tuple(int friendship, string species, string catchphrase)}
  */
 void DecreaseFriendship(map<string, tuple<int, string, string>>& villagers) {
